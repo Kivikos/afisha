@@ -56,11 +56,6 @@ class FilmManagerTest {
     }
 
     @Test
-    public void shouldUseRepository() {
-
-    }
-
-    @Test
     public void shouldGetAll() {
         Film[] returned = new Film[]{first, second, third, fourth, fifth};
         doReturn(returned).when(filmRepository).findAll();
