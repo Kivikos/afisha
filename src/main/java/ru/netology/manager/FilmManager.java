@@ -1,44 +1,35 @@
 package ru.netology.manager;
 
 import ru.netology.domain.Film;
+import ru.netology.repository.FilmRepository;
 
 public class FilmManager {
+    private FilmRepository repository;
     Film[] films = new Film[0];
-    int filmsQuantity;
+    int filmsQuantity = 10;
 
-    public FilmManager() {
-        this.filmsQuantity = 10;
+//    public FilmManager() {
+//    }
+    public FilmManager(FilmRepository repository) {
+        this.repository = repository;
     }
 
-    public FilmManager(int filmsQuantity) {
-        this.filmsQuantity = filmsQuantity;
+    public void addFilm(Film film) {
+        repository.save(film);
     }
 
-    public void addFilm(Film film)
-    {
-        int length = films.length + 1;
-        Film[] tmp = new Film[length];
-        System.arraycopy(films, 0, tmp, 0, films.length);
-        int newFilm = tmp.length - 1;
-        tmp[newFilm] = film;
-        this.films = tmp;
-    }
-
-    public Film[] lastFilm(int filmsQuantity) {
-        if (films.length > filmsQuantity) {
-            Film[] result = new Film[filmsQuantity];
-            for (int i = 0; i < result.length; i++) {
-                int index = films.length - i - 1;
-                result[i] = this.films[index];
-            }
-            return result;
-        } else {
-            Film[] result = new Film[films.length];
-            for (int i = 0; i < result.length; i++) {
-                int index = films.length - i - 1;
-                result[i] = this.films[index];
-            }
-            return result;
+    public Film[] getAll() {
+        Film[] films = repository.findAll();
+        int resultLength = Math.min(filmsQuantity, films.length);
+        Film[] result = new Film[resultLength];
+        for (int i = 0; i < result.length; i++) {
+            int index = films.length - i - 1;
+            result[i] = films[index];
         }
+        return result;
+    }
+
+    public Film[] showAll() {
+        return repository.findAll();
     }
 }
